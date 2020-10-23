@@ -1,0 +1,4375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>ITIL.v4</title>
+<style type="text/css">
+    li { list-style: none;  margin: 0; }
+    p { margin: 0; }
+    span.foldopened { color: white; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: visible;
+    cursor:pointer; }
+
+
+    span.foldclosed { color: #666666; font-size: xx-small;
+    border-width: 1; font-family: monospace; padding: 0em 0.25em 0em 0.25em; background: #e0e0e0;
+    VISIBILITY: hidden;
+    cursor:pointer; }
+
+    span.foldspecial { color: #666666; font-size: xx-small; border-style: none solid solid none;
+    border-color: #CCCCCC; border-width: 1; font-family: sans-serif; padding: 0em 0.1em 0em 0.1em; background: #e0e0e0;
+    cursor:pointer; }
+
+    span.l { color: red; font-weight: bold; }
+
+    a.mapnode:link {text-decoration: none; color: black; }
+    a.mapnode:visited {text-decoration: none; color: black; }
+    a.mapnode:active {text-decoration: none; color: black; }
+    a.mapnode:hover {text-decoration: none; color: black; background: #eeeee0; }
+
+</style>
+<!-- ^ Position is not set to relative / absolute here because of Mozilla -->
+</head>
+<body>
+
+<script type="text/javascript">
+   // Here we implement folding. It works fine with MSIE5.5, MSIE6.0 and
+   // Mozilla 0.9.6.
+
+   if (document.layers) {
+      //Netscape 4 specific code
+      pre = 'document.';
+      post = ''; }
+   if (document.getElementById) {
+      //Netscape 6 specific code
+      pre = 'document.getElementById("';
+      post = '").style'; }
+   if (document.all) {
+      //IE4+ specific code
+      pre = 'document.all.';
+      post = '.style'; }
+
+function layer_exists(layer) {
+   try {
+      eval(pre + layer + post);
+      return true; }
+   catch (error) {
+      return false; }}
+
+function show_layer(layer) {
+   eval(pre + layer + post).position = 'relative'; 
+   eval(pre + layer + post).visibility = 'visible'; }
+
+function hide_layer(layer) {
+   eval(pre + layer + post).visibility = 'hidden';
+   eval(pre + layer + post).position = 'absolute'; }
+
+function hide_folder(folder) {
+    hide_folding_layer(folder)
+    show_layer('show'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function show_folder(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_layer('show'+folder+'_'+i); }
+}
+function show_folder_completely(folder) {
+    // Precondition: all subfolders are folded
+
+    show_layer('hide'+folder);
+    hide_layer('show'+folder);
+    show_layer('fold'+folder);
+
+    scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+
+    var i;
+    for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+
+
+function hide_folding_layer(folder) {
+   var i;
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folding_layer(folder+'_'+i); }
+
+   hide_layer('hide'+folder);
+   hide_layer('show'+folder);
+   hide_layer('fold'+folder);
+
+   scrollBy(0,0); // This is a work around to make it work in Browsers (Explorer, Mozilla)
+}
+
+function fold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       hide_folder(folder+'_'+i); }
+}
+
+function unfold_document() {
+   var i;
+   var folder = '1';
+   for (i=1; layer_exists('fold'+folder+'_'+i); ++i) {
+       show_folder_completely(folder+'_'+i); }
+}
+
+</script>
+<SPAN class="foldspecial" onclick="fold_document()">All +</SPAN>
+<SPAN class="foldspecial" onclick="unfold_document()">All -</SPAN>
+<p>ITIL.v4
+<ul><li>foundation
+<ul><li><p><span id="show1_1" class="foldclosed" onClick="show_folder('1_1')" style="POSITION: absolute">+</span> <span id="hide1_1" class="foldopened" onClick="hide_folder('1_1')">-</span>
+key concepts of service mgmt
+<ul id="fold1_1" style="POSITION: relative; VISIBILITY: visible;"><li><p>value and value co-creation
+<ul><li>key
+<ul><li>purpose of organisation is to create value for stakeholders
+
+</li>
+<li>value is co-created thru' active collaboration between providers and consumers
+
+</li>
+
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      org, service providers,&#xa;    </p>&#xa;    <p>&#xa;      service consumers,&#xa;    </p>&#xa;    <p>&#xa;      and other stakeholders&#xa;    </p>&#xa;  
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      when provisioning services, org takes on role of service provider;&#xa;    </p>&#xa;    <p>&#xa;      the provider can be external to consumer org or both are part of same org&#xa;    </p>&#xa;  
+<p>when receiving services, org takes on role of service consumer
+</li>
+</ul>
+</li>
+
+</ul><p>products and services
+<ul><li>key
+<ul><li><p>services org provides based on one or more products
+<span style="font-family: SansSerif, sans-serif; ">&#xa;    <p>&#xa;      org own or have access to variety of <u>resources</u>&#xa;    </p>&#xa;  </span>
+<ul><li>people
+
+</li>
+<li>information &amp; technology
+
+</li>
+<li>value streams and processes
+
+</li>
+<li>partner and suppliers
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      products are <u>configuration</u>&#160;of resources created by org that potentially be value to customers&#xa;    </p>&#xa;  
+<p>service providers present their services to consumers in the form of service offerings
+</li>
+</ul>
+</li>
+
+</ul><p>service relationships
+<ul><li>key
+<ul><li>established between 2 or more org to co-create value
+
+</li>
+<li>org takes on roles of service providers or consumers
+
+</li>
+<li>org typically both provide and consume a number of services at any given time
+
+</li>
+
+</ul>
+</li>
+<li>service relationship model 
+<ul><li>services delivered by provider -&gt;
+<ul><li>create new resources for service consumer -&gt;
+<ul><li>create products, becoming service provider
+
+</li>
+
+</ul>
+</li>
+<li>or modify existing services
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul><p>value: outcomes, costs and risks
+<ul><li>key
+<ul><li>achieving desired outcomes requires resources and often associated with risks
+
+</li>
+<li>service providers help consumers achieve outcomes
+<ul><li>take on some associated risk and cost
+
+</li>
+
+</ul>
+</li>
+<li>service relationships can introduce new risks and costs
+<ul><li>negatively affect some of intended outcome
+
+</li>
+<li>while supporting some outcome
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">$ cost</span>
+<ul><li>cost removed from consumer by the service
+<ul><li>costs of staff
+
+</li>
+<li>technology
+
+</li>
+<li>other resources which consumer does not need to provide
+
+</li>
+
+</ul>
+</li>
+<li>cost imposed on consumer by the service
+<ul><li>total cost of consuming a service
+<ul><li>price charged by service provider
+
+</li>
+<li>other costs (example)
+<ul><li>staff training
+
+</li>
+<li>cost of network utilisation
+
+</li>
+<li>procurement
+
+</li>
+
+</ul>
+</li>
+<li>what consumers have to 'invest' to consume the service
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>risk
+<ul><li>risk removed from consumer by the service
+<ul><li>failure of consumer's server hardware
+
+</li>
+<li>lack of staff availability
+
+</li>
+<li>consumer may determine this reduction is sufficient to support the value proposition
+
+</li>
+
+</ul>
+</li>
+<li>risk imposed on consumers by the service
+<ul><li>service provider ceasing to trade
+
+</li>
+<li>security breach
+
+</li>
+
+</ul>
+</li>
+<li>consumer contributes to risk reduction by
+<ul><li>actively participate the definition of requirements of service and clarification of outcomes
+
+</li>
+<li>clearly communicate critical success factors (CSFs) and constraints that apply to the service
+
+</li>
+<li>ensure provider has assess to necessary resources of consumer throughout the service relationship
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul><p><span id="show1_2" class="foldclosed" onClick="show_folder('1_2')" style="POSITION: absolute">+</span> <span id="hide1_2" class="foldopened" onClick="hide_folder('1_2')">-</span>
+four dimensions model
+<ul id="fold1_2" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>holistic approach to service mgmt
+
+</li>
+<li>facilitation of value for customers and other stakeholders
+
+</li>
+<li>represent perspectives relevant to SVS
+
+</li>
+<li>constrained or influenced by external factors (often beyond control of SVS)
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">organisation and people</span>
+<ul><li>key
+<ul><li>as org complexity grows, it is important to ensure -&gt;
+<ul><li>the way org is structured and managed
+
+</li>
+<li>roles responsibilities
+
+</li>
+<li>system of authority
+
+</li>
+<li>communication
+
+</li>
+<li>-&gt; are well defined &amp; supports org overall strategy and operating model
+
+</li>
+
+</ul>
+</li>
+<li>culture, required staffing and competencies
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">information and technology</span>
+<ul><li>key
+<ul><li>information and knowledge necessary for management of services
+<ul><li>technologies required as well
+
+</li>
+
+</ul>
+</li>
+<li>incorporates relationship between different component of SVS
+<ul><li>input and outputs of activities and practices
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>cloud computing
+<ul><li>&#xa;    <p>&#xa;      ITSM -&gt; cloud computing changes <u>service architecture</u>&#160;and the distribution of responsibilities between service consumers, providers and partners&#xa;    </p>&#xa;  
+<p>affect multiple service providers' practices
+<p>enables faster deployment
+<ul><li>important prerequisite -&gt; success of Devops (similar initiatives)
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">partners and suppliers</span>
+<ul><li>key
+<ul><li>encompasses an org's relationship with other orgs
+<ul><li>design
+
+</li>
+<li>development
+
+</li>
+<li>deployment
+
+</li>
+<li>delivery
+
+</li>
+<li>support
+
+</li>
+<li>and/or continual improvement of services
+
+</li>
+
+</ul>
+</li>
+<li>incorporates contracts and other agreement
+<ul><li>between the org and its partners and suppliers
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>factors when using suppliers
+<ul><li>strategic focus
+
+</li>
+<li>corporate culture
+
+</li>
+<li>resource scarcity
+
+</li>
+<li>cost concerns
+
+</li>
+<li>subject matter expert
+
+</li>
+<li>external constraints
+<ul><li>&#xa;    <p>&#xa;      government regulation or <u>policy</u>&#xa;    </p>&#xa;  
+<p>industry codes of conduct
+<p>social / political or legal constraints
+</li>
+</ul>
+</li>
+<li>demand pattern
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">value streams and processes</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      concerns with how various part of org works in an integrated and coordinated way&#xa;    </p>&#xa;    <p>&#xa;      to enable value creation thru' products and services&#xa;    </p>&#xa;  
+<p>focuses on what activities org undertakes and how they are organised
+&#xa;    <p>&#xa;      how org ensures it is enabling value creation for&#xa;    </p>&#xa;    <p>&#xa;      all stakeholder efficiently and effectively&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>value stream
+<ul><li>combination of org's value chain activities
+
+</li>
+
+</ul>
+</li>
+<li>process
+<ul><li>describes what is done to accomplish an objective
+
+</li>
+<li>well defined processes can improve productivity within and across org
+
+</li>
+<li>usually detailed in procedure
+<ul><li><p>which outline who is involved in the process
+&#xa;    <p>&#xa;      <u>work instructions</u>&#160;which explain how they are carried out&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>questions
+<ul><li>what is the generic delivery model for the service, and how does the service work?
+
+</li>
+<li>what are the value streams involved in delivering the agreed outputs of the service?
+
+</li>
+<li>who, or what, performs the required service actions?
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>external factors
+<ul><li>PESTEL
+<ul><li>political
+
+</li>
+<li>economical
+
+</li>
+<li>social
+
+</li>
+<li>technological
+
+</li>
+<li>environmental
+
+</li>
+<li>legal
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      service value system (SVS)&#xa;    </p>&#xa;  
+<ul><li><span id="show1_3" class="foldclosed" onClick="show_folder('1_3')" style="POSITION: absolute">+</span> <span id="hide1_3" class="foldopened" onClick="hide_folder('1_3')">-</span>
+overview
+<ul id="fold1_3" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      describes how all components and activities of the org works together&#xa;    </p>&#xa;    <p>&#xa;      as a system to enable value creation&#xa;    </p>&#xa;  
+<p>each org SVS interfaces with other orgs
+<p>forming ecosystem that facilitate value for -&gt;
+<ul><li>org
+
+</li>
+<li>customer
+
+</li>
+<li>stakeholders
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>inputs
+<ul><li>opportunity and demand
+
+</li>
+
+</ul>
+</li>
+<li>elements
+<ul><li>org governance
+
+</li>
+<li>service mgmt
+
+</li>
+<li>continual improvement
+
+</li>
+<li>org capabilities &amp; resources
+
+</li>
+
+</ul>
+</li>
+<li>ouput
+<ul><li>achievement of org objectives
+
+</li>
+<li>value for org
+
+</li>
+<li>org customers
+
+</li>
+<li>other stakeholders
+
+</li>
+
+</ul>
+</li>
+<li>outcome
+<ul><li>creation of value
+
+</li>
+
+</ul>
+</li>
+<li>org agility
+<ul><li>&#xa;    <p>&#xa;      ability to move &amp; adapt quickly,&#xa;    </p>&#xa;    <p>&#xa;      flexibly and decisively support internal changes&#xa;    </p>&#xa;  
+<ul><li>change in scope of org
+
+</li>
+<li>mergers and acquisitions
+
+</li>
+<li>changing org practices
+
+</li>
+<li>technologies requiring different skills or org structure
+
+</li>
+<li>changes to relationship with partners and suppliers
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>org resilience
+<ul><li>&#xa;    <p>&#xa;      ability to anticipate, prepare for,&#xa;    </p>&#xa;    <p>&#xa;      response to, and adapt to&#160;&#xa;    </p>&#xa;  
+<ul><li>incremental changes
+
+</li>
+<li>sudden disruption
+
+</li>
+<li>from an external perspective
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_4" class="foldclosed" onClick="show_folder('1_4')" style="POSITION: absolute">+</span> <span id="hide1_4" class="foldopened" onClick="hide_folder('1_4')">-</span>
+opportunity, demand and value
+<ul id="fold1_4" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li><p>triggers activities within ITIL SVS
+<p>leads to creation of value
+&#xa;    <p>&#xa;      always entering SVS, but org does not automatically&#xa;    </p>&#xa;    <p>&#xa;      accept all opportunities or satisfy all demands&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>opportunities
+<ul><li>&#xa;    <p>&#xa;      represent options or possibilities&#xa;    </p>&#xa;    <p>&#xa;      &#160;to add value for&#xa;    </p>&#xa;  
+<ul><li>stakeholders
+
+</li>
+<li>improve org
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>demand
+<ul><li>&#xa;    <p>&#xa;      represent need or desire for&#xa;    </p>&#xa;    <p>&#xa;      products and services from&#xa;    </p>&#xa;  
+<ul><li>internal customer
+
+</li>
+<li>external customer
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>components
+<ul><li><span id="show1_5" class="foldclosed" onClick="show_folder('1_5')" style="POSITION: absolute">+</span> <span id="hide1_5" class="foldopened" onClick="hide_folder('1_5')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Guiding principles</span>
+<ul id="fold1_5" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      recommendation that guides org&#xa;    </p>&#xa;    <p>&#xa;      &#160;in all circumstances&#xa;    </p>&#xa;  
+<ul><li>changes in goals
+
+</li>
+<li>strategies
+
+</li>
+<li>type of work
+
+</li>
+<li>management structure
+
+</li>
+
+</ul><p>it is universal and enduring
+</li>
+</ul>
+</li>
+<li>principles
+<ul><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">focus on value</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      all activities conducted by org&#xa;    </p>&#xa;    <p>&#xa;      should link back directly or indirectly&#xa;    </p>&#xa;  
+<ul><li>to value for itself
+
+</li>
+<li>its customers
+
+</li>
+<li>other stakeholders
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>who is the service consumer
+
+</li>
+<li>consumer's perspective of value
+
+</li>
+<li>customer experience
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">start where you are</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      in the process of eliminating old unsuccessful methods or service,&#xa;    </p>&#xa;    <p>&#xa;      there can be temptation to remove what was done in the past and&#xa;    </p>&#xa;    <p>&#xa;      build something completely new&#xa;    </p>&#xa;  
+<ul><li>extremely wasteful
+<ul><li>in terms of time
+
+</li>
+<li>loss of existing services
+
+</li>
+<li>loss of process
+
+</li>
+<li>loss of people
+
+</li>
+<li>loss of tools
+
+</li>
+
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      do not start over without first considering&#xa;    </p>&#xa;    <p>&#xa;      what is already available to be leverage&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>assess where you are
+
+</li>
+<li>the role of measurement
+<ul><li>&#xa;    <p>&#xa;      <i>'when a measure becomes a target, </i>&#xa;    </p>&#xa;    <p>&#xa;      <i>it ceases to be a good measure' </i>--- Goodhart's law&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">progress iteratively with feedback</span>
+<ul><li>key
+<ul><li>resist temptation to do everything at once
+
+</li>
+<li>organising work into smaller manageable sections
+<ul><li>which can be executed and completed in timely manner
+
+</li>
+<li>focus on each effort will be sharper and easier to maintain
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>the role of feedback
+
+</li>
+<li>iteration and feedback together
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">collaborate and promote visibility</span>
+<ul><li>key
+<ul><li>when initiatives involves the right people in the correct roles
+<ul><li><p>efforts benefit from better buy-in
+&#xa;    <p>&#xa;      more relevance&#xa;    </p>&#xa;    <p>&#xa;      (better information available for decision making)&#xa;    </p>&#xa;  
+<p>increased likelihood of long-term success
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>whom to collaborate with
+
+</li>
+<li>communication for improvement
+
+</li>
+<li>increasing urgency through visibility
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">think and work holistically</span>
+<ul><li>key
+<ul><li><p>no service practice process department or supplier stands alone
+&#xa;    <p>&#xa;      outputs org delivers to itself, its customers, and other stakeholders will suffer&#xa;    </p>&#xa;    <p>&#xa;      unless it works in an integration way to handle its activities as a whole&#xa;    </p>&#xa;  
+<p>all org activities should focus on the delivery of value
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">keep it simple and practical</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      Always use the minimum number of steps&#xa;    </p>&#xa;    <p>&#xa;      &#160;to accomplish an objective&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      Outcome based thinking to produce&#xa;    </p>&#xa;    <p>&#xa;      &#160;practical solution that deliver valuable outcomes&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      if process, service, action, or metric&#xa;    </p>&#xa;    <p>&#xa;      fails to provide value or produce useful outcome,&#xa;    </p>&#xa;    <p>&#xa;      <b>eliminate</b>&#160;it&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>judging what to keep
+
+</li>
+<li>conflicting objectives
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">optimise and automate</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      org must maximise value of work carried out&#xa;    </p>&#xa;    <p>&#xa;      &#160;by human and technical resources&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      four dimension model provide holistic view&#xa;    </p>&#xa;    <p>&#xa;      that should be considered when&#xa;    </p>&#xa;    <p>&#xa;      designing, managing, or operating an org&#xa;    </p>&#xa;  
+<p>technology
+<ul><li><p>helps org scale up and take on frequent and repetitive tasks
+<p>allow human resources for more complex decision-making
+<p>should not always be relied upon without human intervention
+&#xa;    <p>&#xa;      as automation for automation sake,&#xa;    </p>&#xa;    <p>&#xa;      increase cost and&#xa;    </p>&#xa;    <p>&#xa;      reduce&#160;org robustness and resilience&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+<li>road to optimisation
+<ul><li><p>agreeing org vision &amp; objective
+<p>assess current state of proposed optimisation
+<ul><li>agree future state of org
+
+</li>
+
+</ul><p>focus on simplification and value
+<ul><li>standardisation of practice
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      has appropriate level of&#xa;    </p>&#xa;    <p>&#xa;      stakeholder engagement and commitment&#xa;    </p>&#xa;  
+<p>execute improvement with feedback
+<p>continual monitoring of optimisation impact
+</li>
+</ul>
+</li>
+<li>using automation
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_6" class="foldclosed" onClick="show_folder('1_6')" style="POSITION: absolute">+</span> <span id="hide1_6" class="foldopened" onClick="hide_folder('1_6')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Governance</span>
+<ul id="fold1_6" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>every org is directed by a governing body
+
+</li>
+<li>all org perform governance activities
+
+</li>
+<li>governing body
+<ul><li>board of directors
+
+</li>
+<li>executive managers
+
+</li>
+<li>take on separate governance role when performing governance activities
+
+</li>
+<li>accountable for org complance with policies and any external regulations
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>governing in SVS
+<ul><li>service value chain and org practices
+<ul><li>in line with direction by governing body
+
+</li>
+
+</ul>
+</li>
+<li>governing body maintains oversight of SVS (directly or thru delegation)
+
+</li>
+<li>maintain alignment thru clear set of shared principles and objectives
+
+</li>
+<li>governance are continually improved
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_7" class="foldclosed" onClick="show_folder('1_7')" style="POSITION: absolute">+</span> <span id="hide1_7" class="foldopened" onClick="hide_folder('1_7')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Service value chain</span>
+<ul id="fold1_7" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li><p>6 activities represent step org undertake in creation of value
+<p>each activity transforms inputs into outputs
+<ul><li>input can be demand outside of value chain or output of other activities
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      all activities are interconnected, each receiving and providing triggers for further action&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>common rules
+<ul><li>&#xa;    <p>&#xa;      all incoming and outgoing interactions with parties external to value chain are perform via <i>engage</i>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      all new resources are obtained via <i>obtain/build</i>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      planning at all levels is performed via <i>plan</i>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      improvement at all levels are initiated and managed via <i>improve</i>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>activities
+<ul><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">plan</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to ensure a shared understanding of&#xa;    </p>&#xa;  
+<ul><li>vision
+
+</li>
+<li>current status
+
+</li>
+<li>improvement direction
+<ul><li>four dimensions
+
+</li>
+
+</ul>
+</li>
+<li>all products &amp; services across org
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">improve</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to ensure continual improvement&#xa;    </p>&#xa;  
+<ul><li>products
+
+</li>
+<li>services
+
+</li>
+<li>practices across all value chain activities
+
+</li>
+<li>four dimensions of service mgmt
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">engage</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to provide good understanding of&#xa;    </p>&#xa;  
+<ul><li>stakeholder needs
+
+</li>
+<li>transparency
+
+</li>
+<li>continual engagement
+
+</li>
+<li>good relationship with stakeholders
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">design and transition</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to ensure that products and services&#xa;    </p>&#xa;    <p>&#xa;      continually meet&#xa;    </p>&#xa;    <p>&#xa;      stakeholder expectations for&#xa;    </p>&#xa;  
+<ul><li>quality
+
+</li>
+<li>cost
+
+</li>
+<li>time to market
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">obtain/build</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to ensure service components are available&#xa;    </p>&#xa;  
+<ul><li>when and where they are needed
+
+</li>
+<li>meet agreed specification
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">deliver and support</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      purpose -&gt;&#xa;    </p>&#xa;    <p>&#xa;      to ensure service are delivered and supported&#xa;    </p>&#xa;    <p>&#xa;      according to agreed specification and stakeholder expectation&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Practices</span>
+<ul><li><span id="show1_8" class="foldclosed" onClick="show_folder('1_8')" style="POSITION: absolute">+</span> <span id="hide1_8" class="foldopened" onClick="hide_folder('1_8')">-</span>
+key
+<ul id="fold1_8" style="POSITION: relative; VISIBILITY: visible;"><li>general mgmt practices
+<ul><li>adopted &amp; adapted from general business mgmt domains for
+<ul><li>service mgmt
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>service mgmt practices
+<ul><li>developed in service mgmt and ITSM industries
+
+</li>
+
+</ul>
+</li>
+<li>technical mgmt practices
+<ul><li>adapted from technology mgmt domains for
+<ul><li>service mgmt purposes
+<ul><li>expanding or shifting focus from technology solution to IT services
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>general mgmt practices
+<ul><li><span id="show1_9" class="foldclosed" onClick="show_folder('1_9')" style="POSITION: absolute">+</span> <span id="hide1_9" class="foldopened" onClick="hide_folder('1_9')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">architecture mgmt</span>
+<ul id="fold1_9" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li><p>provides understanding
+<ul><li>all elements of org
+
+</li>
+<li>how these elements interrelate
+
+</li>
+
+</ul><p>enables org to effectively achieve current and future objectives
+&#xa;    <p>&#xa;      provides principles, standards and tools to&#xa;    </p>&#xa;    <p>&#xa;      manage complex changes&#xa;    </p>&#xa;    <p>&#xa;      in a structure and Agile way&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>types
+<ul><li><p>business
+<ul><li>&#xa;    <p>&#xa;      allows org to look at its capabilities in terms&#xa;    </p>&#xa;    <p>&#xa;      &#160;of how they align with all the detailed activities&#xa;    </p>&#xa;    <p>&#xa;      &#160;to create value for org and its customers&#xa;    </p>&#xa;  
+</li>
+</ul><p>service
+<ul><li>a view of all services org provides
+<ul><li><p>interactions between services
+&#xa;    <p>&#xa;      service models that describe&#xa;    </p>&#xa;    <p>&#xa;      &#160;structure &amp; dynamics of each service&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      information systems,&#xa;    </p>&#xa;    <p>&#xa;      &#160;including data &amp; application&#xa;    </p>&#xa;  
+<ul><li>describes logical &amp; physical 
+<ul><li>data assets
+
+</li>
+<li>data mgmt resources
+
+</li>
+
+</ul>
+</li>
+<li>shows how information resources
+<ul><li>managed
+
+</li>
+<li>shared 
+
+</li>
+
+</ul>
+</li>
+<li>information -&gt;
+<ul><li>valuable asset of org
+
+</li>
+<li>with actual &amp; measurable value
+
+</li>
+<li>basis of decision making
+
+</li>
+<li>must be -&gt;
+<ul><li>complete
+
+</li>
+<li>accurate
+
+</li>
+<li>accessible to those authorised
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul><p>technology
+<ul><li>defines software and hardware infrastructure
+<ul><li>support portfolio of products and services
+
+</li>
+
+</ul>
+</li>
+
+</ul><p>environment
+<ul><li>describes 
+<ul><li>external factors impacting org
+
+</li>
+<li>drivers for change
+
+</li>
+<li>aspects, types and levels of environment control &amp; their mgmt
+
+</li>
+
+</ul>
+</li>
+<li>includes
+<ul><li>developmental
+
+</li>
+<li>technological
+
+</li>
+<li>business
+
+</li>
+<li>operational
+
+</li>
+<li>organisational
+
+</li>
+<li>political
+
+</li>
+<li>economi
+
+</li>
+<li>legal
+
+</li>
+<li>regulatory
+
+</li>
+<li>ecological
+
+</li>
+<li>social influences
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_10" class="foldclosed" onClick="show_folder('1_10')" style="POSITION: absolute">+</span> <span id="hide1_10" class="foldopened" onClick="hide_folder('1_10')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">continual improvement</span>
+<ul id="fold1_10" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to align org practice and services 
+<ul><li><p>with changing needs
+&#xa;    <p>&#xa;      thru' ongoing improvement of&#xa;    </p>&#xa;    <p>&#xa;      &#160;product, services and practices, or any elements&#xa;    </p>&#xa;    <p>&#xa;      &#160;in mgmt of products and services&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>continual improvement register (CIR)
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_11" class="foldclosed" onClick="show_folder('1_11')" style="POSITION: absolute">+</span> <span id="hide1_11" class="foldopened" onClick="hide_folder('1_11')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">information security mgmt</span>
+<ul id="fold1_11" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to protect information needed by org&#xa;    </p>&#xa;    <p>&#xa;      &#160;to conduct its business&#xa;    </p>&#xa;  
+<p>understanding and managing risks to
+<ul><li>confidentiality
+
+</li>
+<li>integrity
+
+</li>
+<li>availability of information
+
+</li>
+<li>other aspects
+<ul><li>authentication
+
+</li>
+<li>non-repudiation
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>prevention
+
+</li>
+<li>detection
+
+</li>
+<li>correction
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_12" class="foldclosed" onClick="show_folder('1_12')" style="POSITION: absolute">+</span> <span id="hide1_12" class="foldopened" onClick="hide_folder('1_12')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">knowledge mgmt</span>
+<ul id="fold1_12" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to maintain and improve the&#xa;    </p>&#xa;    <p>&#xa;      effective, efficient and convenient&#xa;    </p>&#xa;    <p>&#xa;      use of information and knowledge&#xa;    </p>&#xa;    <p>&#xa;      across org&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_13" class="foldclosed" onClick="show_folder('1_13')" style="POSITION: absolute">+</span> <span id="hide1_13" class="foldopened" onClick="hide_folder('1_13')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">measurement and reporting</span>
+<ul id="fold1_13" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to support good decision-making
+
+</li>
+<li>continual improvement &nbsp;by decreasing level of uncertainty
+
+</li>
+<li>thru' -&gt; 
+<ul><li>collection of relevant data on various managed objects
+
+</li>
+<li>valid assessment of data in appropriate context
+
+</li>
+
+</ul>
+</li>
+<li>managed objects -&gt;
+<ul><li>products and services
+
+</li>
+<li>practices
+
+</li>
+<li>value chain activities 
+
+</li>
+<li>teams and individuals
+
+</li>
+<li>suppliers and partners
+
+</li>
+<li>org as a whole
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>KPIs and behaviour
+
+</li>
+<li>reporting
+
+</li>
+
+</ul>
+</li>
+<li><span id="show1_14" class="foldclosed" onClick="show_folder('1_14')" style="POSITION: absolute">+</span> <span id="hide1_14" class="foldopened" onClick="hide_folder('1_14')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">organisational change mgmt</span>
+<ul id="fold1_14" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to ensure changes in org are smoothly and successfully implemented
+
+</li>
+<li>achieved by managing the human aspects of change
+
+</li>
+
+</ul>
+</li>
+<li>activities
+<ul><li>creation of urgency
+<ul><li>clear and relevant objectives
+
+</li>
+<li>willing and prepared participants
+
+</li>
+
+</ul>
+</li>
+<li>stakeholder mgmt
+<ul><li>willing and prepared participants
+
+</li>
+
+</ul>
+</li>
+<li>sponsor mgmt
+<ul><li>strong and committed leadership
+
+</li>
+
+</ul>
+</li>
+<li>communication
+<ul><li>willing and prepared participants
+
+</li>
+
+</ul>
+</li>
+<li>empowerment
+<ul><li>willing and prepared participants
+
+</li>
+
+</ul>
+</li>
+<li>resistant mgmt
+<ul><li>willing and prepared participants
+
+</li>
+
+</ul>
+</li>
+<li>reinforcement
+<ul><li>sustained improvement
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_15" class="foldclosed" onClick="show_folder('1_15')" style="POSITION: absolute">+</span> <span id="hide1_15" class="foldopened" onClick="hide_folder('1_15')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">portfolio mgmt</span>
+<ul id="fold1_15" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to ensure org has right mix of 
+<ul><li>programmes
+
+</li>
+<li>projects
+
+</li>
+<li>products
+
+</li>
+<li>services
+
+</li>
+
+</ul>
+</li>
+<li>to execute org strategy within funding and resource constraints
+
+</li>
+
+</ul>
+</li>
+<li>portfolio
+<ul><li>product / service
+
+</li>
+<li>project
+
+</li>
+<li>customer
+<ul><li>relationship mgmt practice
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_16" class="foldclosed" onClick="show_folder('1_16')" style="POSITION: absolute">+</span> <span id="hide1_16" class="foldopened" onClick="hide_folder('1_16')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">project mgmt</span>
+<ul id="fold1_16" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure all projects in org&#xa;    </p>&#xa;    <p>&#xa;      &#160;are successfully delivered&#xa;    </p>&#xa;  
+<ul><li><p>planning
+<p>delegating
+<p>monitoring
+&#xa;    <p>&#xa;      maintaining&#xa;    </p>&#xa;    <p>&#xa;      &#160;all aspects of a project&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      keeping motivation of&#xa;    </p>&#xa;    <p>&#xa;      &#160;people involved&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+<li>approach
+<ul><li>waterfall
+
+</li>
+<li>agile
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_17" class="foldclosed" onClick="show_folder('1_17')" style="POSITION: absolute">+</span> <span id="hide1_17" class="foldopened" onClick="hide_folder('1_17')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">relationship mgmt</span>
+<ul id="fold1_17" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to establish and nurture links&#xa;    </p>&#xa;    <p>&#xa;      &#160;between org and stakeholders&#xa;    </p>&#xa;    <p>&#xa;      &#160;at strategic and tactical levels&#xa;    </p>&#xa;  
+<ul><li><p>identification
+<p>analysis
+<p>monitoring
+&#xa;    <p>&#xa;      continual improvement of&#160;relationship&#xa;    </p>&#xa;    <p>&#xa;      &#160;with and between stakeholders&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_18" class="foldclosed" onClick="show_folder('1_18')" style="POSITION: absolute">+</span> <span id="hide1_18" class="foldopened" onClick="hide_folder('1_18')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">risk mgmt</span>
+<ul id="fold1_18" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to ensure org understands and effectively handles risk
+
+</li>
+<li>ensuring ongoing sustainability of org and creating value for customers
+
+</li>
+<li>integral part of all org activities
+
+</li>
+<li>central to org SVS
+
+</li>
+
+</ul>
+</li>
+<li>risk needs to be
+<ul><li>identified
+
+</li>
+<li>assessed
+
+</li>
+<li>treated
+
+</li>
+
+</ul>
+</li>
+<li>principles
+<ul><li>risk is part of business
+
+</li>
+<li>risk mgmt must be consistent across business
+
+</li>
+<li>risk mgmt culture and behaviours are important
+
+</li>
+
+</ul>
+</li>
+<li>ISO 31000
+<ul><li><span style="font-family: SansSerif, sans-serif; font-style: italic; ">purpose of risk mgmt is creation and protection of value</span>
+
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-style: italic; ">improves performance, encourages innovation and supports the achievement of objectives</span>
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_19" class="foldclosed" onClick="show_folder('1_19')" style="POSITION: absolute">+</span> <span id="hide1_19" class="foldopened" onClick="hide_folder('1_19')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service financial mgmt</span>
+<ul id="fold1_19" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to support org strategies and plans for service mgmt
+
+</li>
+<li>ensuring org financial resources and investments are used effectively
+
+</li>
+
+</ul>
+</li>
+<li>activities
+<ul><li>budgeting / costing
+<ul><li>focus on predicting and controlling income and expenditure
+
+</li>
+
+</ul>
+</li>
+<li>accounting
+
+</li>
+<li>charging
+<ul><li>all services require funding model
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_20" class="foldclosed" onClick="show_folder('1_20')" style="POSITION: absolute">+</span> <span id="hide1_20" class="foldopened" onClick="hide_folder('1_20')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">strategy mgmt</span>
+<ul id="fold1_20" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to formulate goals of org and&#xa;    </p>&#xa;    <p>&#xa;      &#160;adopt courses of action and&#xa;    </p>&#xa;    <p>&#xa;      &#160;allocation of resources necessary&#xa;    </p>&#xa;    <p>&#xa;      &#160;for achieving goals&#xa;    </p>&#xa;  
+<p>establishes -&gt; 
+<ul><li>org direction
+
+</li>
+<li>focus effort
+
+</li>
+<li>defines or clarifies org priorities
+
+</li>
+<li>provide consistency or guidance in response to environment
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_21" class="foldclosed" onClick="show_folder('1_21')" style="POSITION: absolute">+</span> <span id="hide1_21" class="foldopened" onClick="hide_folder('1_21')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">supplier mgmt</span>
+<ul id="fold1_21" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to ensure org suppliers and their performances are managed appropriately 
+<ul><li>to support seamless provision of quality product and services
+
+</li>
+
+</ul>
+</li>
+<li>create closer more collaborative relationships with key suppliers
+<ul><li>to uncover and realise
+<ul><li>new value
+
+</li>
+<li>reduce risk of failure
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>central practices
+<ul><li>creating a single point of visibility &amp; control consistency
+
+</li>
+<li>maintaining supplier strategy, policy and contract mgmt information
+
+</li>
+<li>negotiating and agreeing contracts and arragements
+<ul><li>procurement mgmt
+
+</li>
+<li>performance mgmt
+
+</li>
+
+</ul>
+</li>
+<li>managing relationships and contracts with internal and external suppliers
+
+</li>
+<li>managing supplier performance
+
+</li>
+
+</ul>
+</li>
+<li>relationships
+<ul><li>insourcing
+<ul><li>developed / delivered internally
+
+</li>
+
+</ul>
+</li>
+<li>outsourcing
+<ul><li>external suppliers providing products and services previously provided internally
+
+</li>
+<li>involves substitution
+
+</li>
+
+</ul>
+</li>
+<li>single source or partnership
+<ul><li>single supplier suppling all services directly
+
+</li>
+<li>external service integrator
+<ul><li>managing all suppliers
+
+</li>
+<li>integrates their service on behalf of org
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>multi-sourcing
+<ul><li>procurement from more than on independent suppliers
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>evaluation and selection of suppliers
+<ul><li>importance and impact
+
+</li>
+<li>risk
+
+</li>
+<li>costs
+
+</li>
+
+</ul>
+</li>
+<li>activities
+<ul><li>supplier planning
+<ul><li>business analysis
+
+</li>
+<li>portfolio mgmt
+
+</li>
+<li>service design
+
+</li>
+<li>service level mgmt
+
+</li>
+
+</ul>
+</li>
+<li>evaluation of suppliers and contracts
+
+</li>
+<li>supplier and contract negotiation
+
+</li>
+<li>supplier categorisation
+
+</li>
+<li>supplier and contract mgmt
+
+</li>
+<li>warranty mgmt
+
+</li>
+<li>performance mgmt
+
+</li>
+<li>contract renewal and/or termination
+
+</li>
+
+</ul>
+</li>
+<li>service integration
+<ul><li>focus on end-to-end provision of service
+
+</li>
+<li>ensure control of all interfaces and outcomes
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_22" class="foldclosed" onClick="show_folder('1_22')" style="POSITION: absolute">+</span> <span id="hide1_22" class="foldopened" onClick="hide_folder('1_22')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">workforce and talent mgmt</span>
+<ul id="fold1_22" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure org has right pple&#xa;    </p>&#xa;    <p>&#xa;      &#160;with appropriate skills and knowledge&#xa;    </p>&#xa;    <p>&#xa;      &#160;and in correct roles to&#xa;    </p>&#xa;    <p>&#xa;      &#160;support business objectives&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      focus on successfully engaging with org&#xa;    </p>&#xa;    <p>&#xa;      &#160;employees and people resources&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      planning, recruitment, onboarding,&#xa;    </p>&#xa;    <p>&#xa;      &#160;learning and development,&#xa;    </p>&#xa;    <p>&#xa;      &#160;performance measurement,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and succession planning&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      plays critical roles in <u>organisational velocity</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>activities
+<ul><li>workforce planning
+<ul><li>translate org strategy / objective -&gt; org capabilities -&gt; competencies / roles
+
+</li>
+
+</ul>
+</li>
+<li>recruitment
+
+</li>
+<li>performance measurement
+
+</li>
+<li>personal development
+
+</li>
+<li>learning and development
+
+</li>
+<li>mentoring and succession planning
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>service mgmt practices
+<ul><li><span id="show1_23" class="foldclosed" onClick="show_folder('1_23')" style="POSITION: absolute">+</span> <span id="hide1_23" class="foldopened" onClick="hide_folder('1_23')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">availability mgmt</span>
+<ul id="fold1_23" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure services deliver agreed levels of availability&#xa;    </p>&#xa;    <p>&#xa;      &#160;to meet the needs of customers and users&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>activities
+<ul><li>negotiating and agreeing achievable targets
+
+</li>
+<li>design infrastructure and applications that deliver required SLA
+
+</li>
+<li>ensuring services and components can collect data to measure availability
+
+</li>
+<li>monitoring, analysing and reporting
+
+</li>
+<li>planning improvement
+
+</li>
+
+</ul>
+</li>
+<li>measurements
+<ul><li>Mean time between failures (MTBF)
+
+</li>
+<li>Mean time to restore service(MTRS)
+
+</li>
+<li>user outage minutes
+
+</li>
+<li>number of lost transaction
+
+</li>
+<li>lost business value
+
+</li>
+<li>user satisfaction
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_24" class="foldclosed" onClick="show_folder('1_24')" style="POSITION: absolute">+</span> <span id="hide1_24" class="foldopened" onClick="hide_folder('1_24')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">business analysis</span>
+<ul id="fold1_24" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to analyse a business or&#xa;    </p>&#xa;    <p>&#xa;      &#160;some element of it&#xa;    </p>&#xa;  
+<ul><li><p>define its associated needs
+&#xa;    <p>&#xa;      recommend solutions to address needs&#xa;    </p>&#xa;    <p>&#xa;      &#160;and/or solve business problem&#xa;    </p>&#xa;  
+<p>faciliates value creation for stakeholders
+</li>
+</ul>&#xa;    <p>&#xa;      enables org to communicate its needs in a meaningful way,&#xa;    </p>&#xa;    <p>&#xa;      &#160;express rationale for change&#xa;    </p>&#xa;    <p>&#xa;      &#160;and design / describe solutions that&#xa;    </p>&#xa;    <p>&#xa;      &#160;enable value creation in alignment with org objectives&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>activities
+<ul><li>analysing 
+<ul><li>business system
+
+</li>
+<li>business process
+
+</li>
+<li>services
+
+</li>
+<li>architecture
+
+</li>
+
+</ul>
+</li>
+<li>identifying / prioritising
+<ul><li>SVS
+
+</li>
+<li>services / products improvement
+
+</li>
+<li>innovation opportunities
+
+</li>
+
+</ul>
+</li>
+<li>evaluating / proposing actions
+<ul><li>create desired improvement
+
+</li>
+<li>IT system change
+
+</li>
+<li>process change
+
+</li>
+<li>org structure change
+
+</li>
+<li>staff development
+
+</li>
+
+</ul>
+</li>
+<li>documenting business requirement
+
+</li>
+
+</ul>
+</li>
+<li>business requirement
+<ul><li>warranty focus
+
+</li>
+<li>utility focus
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_25" class="foldclosed" onClick="show_folder('1_25')" style="POSITION: absolute">+</span> <span id="hide1_25" class="foldopened" onClick="hide_folder('1_25')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">capacity &amp; performance mgmt</span>
+<ul id="fold1_25" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure services achieve&#xa;    </p>&#xa;    <p>&#xa;      &#160;agree and expected performance,&#xa;    </p>&#xa;    <p>&#xa;      &#160;satisfying current and future demand&#xa;    </p>&#xa;    <p>&#xa;      &#160;in a cost-effective way&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>activities
+<ul><li><p>service performance &amp; capacity analysis
+<ul><li>research / monitoring current service performance
+
+</li>
+<li>capacity / performance modelling
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      service performance &amp; <u>capacity planning</u>&#xa;    </p>&#xa;  
+<ul><li>capacity requirement analysis
+
+</li>
+<li>demand forecasting &amp; resource planning
+
+</li>
+<li>performance improvement planning
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_26" class="foldclosed" onClick="show_folder('1_26')" style="POSITION: absolute">+</span> <span id="hide1_26" class="foldopened" onClick="hide_folder('1_26')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">change control</span>
+<ul id="fold1_26" style="POSITION: relative; VISIBILITY: visible;"><li><p>key
+<ul><li>&#xa;    <p>&#xa;      to maximise number of successful&#xa;    </p>&#xa;    <p>&#xa;      &#160;service and product changes&#xa;    </p>&#xa;    <p>&#xa;      &#160;by ensuring -&gt;&#xa;    </p>&#xa;  
+<ul><li><p>risk properly assessed
+<p>authorising changes to proceed
+&#xa;    <p>&#xa;      managing <u>change schedule</u>&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>&#xa;    <p>&#xa;      <u>change authority</u>&#xa;    </p>&#xa;  
+<ul><li>person or group who authorise a change
+
+</li>
+
+</ul><p>change
+<ul><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">standard change</span>
+<ul><li><p>low risk, pre-authorised
+<ul><li>well understood / fully documented
+<ul><li>can be implemented without additional authorisation
+
+</li>
+
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      initiated as <b>service request</b>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      when procedure of <u>standard change </u>&#xa;    </p>&#xa;    <p>&#xa;      &#160;is created or modified&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      full risk assessment and authorisation&#xa;    </p>&#xa;    <p>&#xa;      &#160;as any other changes&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      when implement <u>standard change</u>&#xa;    </p>&#xa;  
+<ul><li>risk assessment need not to be repeated
+<ul><li>&#xa;    <p>&#xa;      only required&#xa;    </p>&#xa;    <p>&#xa;      &#160;when modification to the way&#xa;    </p>&#xa;    <p>&#xa;      &#160;change is carried out&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">normal change</span>
+<ul><li><p>changes need to be -&gt;
+<ul><li>schedule
+
+</li>
+<li>assessed
+
+</li>
+<li>authorised
+
+</li>
+<li>following process
+
+</li>
+
+</ul><p>change model
+<ul><li>minor / low risk
+<ul><li>&#xa;    <p>&#xa;      rapid decision from <u>change authority</u>&#xa;    </p>&#xa;  
+<p>often using automation to speed up change
+</li>
+</ul>
+</li>
+<li>major
+<ul><li>&#xa;    <p>&#xa;      mgmt board or equivalent as<u>&#160;change authority</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      triggered by creation of <b>change request</b>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">emergency change</span>
+<ul><li><p>implemented ASAP
+<ul><li>resolve incident
+
+</li>
+<li>security patch
+
+</li>
+
+</ul><p>typically not included in change schedule
+<p>process of assessment / authorisation is expedited
+<p>should subject to same testing, assessment and authorisation
+<p>acceptable -&gt;
+<ul><li>defer documentation
+
+</li>
+<li>less testing
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      separate<u>&#160;change authority</u>&#160;for<u>&#160;emergency change</u>&#xa;    </p>&#xa;  
+<ul><li>smaller number of senior manager
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li><span id="show1_27" class="foldclosed" onClick="show_folder('1_27')" style="POSITION: absolute">+</span> <span id="hide1_27" class="foldopened" onClick="hide_folder('1_27')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">incident mgmt</span>
+<ul id="fold1_27" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to minimise the negative impact of incidents&#xa;    </p>&#xa;    <p>&#xa;      &#160;by restoring normal service operation&#xa;    </p>&#xa;    <p>&#xa;      &#160;as quickly as possible&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>incident groups
+<ul><li>&#xa;    <p>&#xa;      <u>users</u>&#xa;    </p>&#xa;  
+<ul><li>using self help
+
+</li>
+
+</ul><p>service desk
+<p>support team
+<ul><li>routing based on incident category
+
+</li>
+
+</ul><p>suppliers / partners
+<ul><li>offers support for their products / services
+
+</li>
+
+</ul><p>temporary team
+<ul><li>most complex / major incident
+
+</li>
+<li>include -&gt;
+<ul><li>stakeholders
+
+</li>
+<li>service provider
+
+</li>
+<li>suppliers
+
+</li>
+<li>users
+
+</li>
+
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      may invoke<u>&#160;disaster recovery&#160;plans</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>swarming
+<ul><li>involves many different stakeholders working together initially
+
+</li>
+<li>until its clear which stakeholder is best placed to continue and which move on to other tasks
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_28" class="foldclosed" onClick="show_folder('1_28')" style="POSITION: absolute">+</span> <span id="hide1_28" class="foldopened" onClick="hide_folder('1_28')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">asset mgmt</span>
+<ul id="fold1_28" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to plan &amp; manage full lifecycle of IT assets
+
+</li>
+<li>help org
+<ul><li>maximise value
+
+</li>
+<li>control costs
+
+</li>
+<li>manage risk
+
+</li>
+<li>support decision making
+<ul><li>purchase
+
+</li>
+<li>re-use
+
+</li>
+<li>retirement
+
+</li>
+<li>disposal of assets
+
+</li>
+
+</ul>
+</li>
+<li>meet regulatory and contractual requirement
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>types
+<ul><li>asset mgmt
+<ul><li>&#xa;    <p>&#xa;      acquisition, operation,&#xa;    </p>&#xa;    <p>&#xa;      &#160;care, and disposal&#xa;    </p>&#xa;    <p>&#xa;      &#160;org assets,&#xa;    </p>&#xa;    <p>&#xa;      &#160;particularly critical infrastructure&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>IT asset mgmt (ITAM)
+<ul><li><p>sub practice of asset mgmt
+&#xa;    <p>&#xa;      managing lifecycle and&#xa;    </p>&#xa;    <p>&#xa;      &#160;total costs of&#xa;    </p>&#xa;    <p>&#xa;      &#160;IT equipment and infrastructure&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>software asset mgmt (SAM)
+<ul><li><p>aspect of IT asset mgmt
+&#xa;    <p>&#xa;      acquisition, development,&#xa;    </p>&#xa;    <p>&#xa;      &#160;release, deployment,&#xa;    </p>&#xa;    <p>&#xa;      &#160;maintenance, and eventual retirement&#xa;    </p>&#xa;    <p>&#xa;      &#160;of software asset&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      effective mgmt, control,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and protection&#xa;    </p>&#xa;    <p>&#xa;      &#160;of software assets&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>IT asset mgmt requirements
+<ul><li>&#xa;    <p>&#xa;      hardware asset must be&#xa;    </p>&#xa;    <p>&#xa;      &#160;labelled for clear identification&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      software asset must be protected from&#xa;    </p>&#xa;    <p>&#xa;      &#160;unlawful copying / unlicensed use&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      cloud-based assets must be assigned&#xa;    </p>&#xa;    <p>&#xa;      &#160;to specific product or groups&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      client assets must be assigned to individuals&#xa;    </p>&#xa;    <p>&#xa;      &#160;who take responsibility for their care&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>maintains
+<ul><li>asset register
+<ul><li>inventory information
+
+</li>
+<li>structure / content
+
+</li>
+<li>storage facilities
+
+</li>
+
+</ul>
+</li>
+<li>configuration mgmt system (CMS)
+<ul><li>asset info
+
+</li>
+<li>costs
+
+</li>
+<li>contracts
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>activities
+<ul><li>define, populate, and maintain asset register
+
+</li>
+<li>control asset lifecycle and record changes to assets
+
+</li>
+<li>provide current / historical data / report
+
+</li>
+<li>audit and conformity
+<ul><li>drive corrective and preventive improvements
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_29" class="foldclosed" onClick="show_folder('1_29')" style="POSITION: absolute">+</span> <span id="hide1_29" class="foldopened" onClick="hide_folder('1_29')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">monitoring and event mgmt</span>
+<ul id="fold1_29" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to systematically observe&#xa;    </p>&#xa;    <p>&#xa;      &#160;service and service components,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and record &amp; report&#xa;    </p>&#xa;    <p>&#xa;      &#160;selected changes of state&#xa;    </p>&#xa;    <p>&#xa;      &#160;identified as events&#xa;    </p>&#xa;  
+<p>identified / prioritise events -&gt;
+<ul><li>infrastructure
+
+</li>
+<li>services 
+
+</li>
+<li>business processes
+
+</li>
+<li>information security
+
+</li>
+
+</ul><p>establishes appropriate response to events
+<ul><li>conditions to potential faults or incidents
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>event classification
+<ul><li>informational
+
+</li>
+<li>warning
+
+</li>
+<li>exception
+
+</li>
+
+</ul>
+</li>
+<li>activities
+<ul><li>&#xa;    <p>&#xa;      identify monitoring strategy and&#xa;    </p>&#xa;    <p>&#xa;      &#160;what to monitor -&gt;&#xa;    </p>&#xa;  
+<ul><li>services
+
+</li>
+<li>systems
+
+</li>
+<li>configuration items (CI)
+
+</li>
+<li>service components
+
+</li>
+
+</ul><p>implementing / maintaining monitoring
+<ul><li>leverage native feature
+
+</li>
+<li>use of designed-for-purpose tools
+
+</li>
+
+</ul><p>establishing / maintaining thresholds / criteria
+<p>establishing / maintaining policies to handle events
+<p>implementing processes and automation
+<ul><li>operationalise defined
+<ul><li>threshold
+
+</li>
+<li>criteria
+
+</li>
+<li>policies
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_30" class="foldclosed" onClick="show_folder('1_30')" style="POSITION: absolute">+</span> <span id="hide1_30" class="foldopened" onClick="hide_folder('1_30')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">problem mgmt</span>
+<ul id="fold1_30" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to reduce likelihood and impact of incident 
+<ul><li>identifying actual and potential causes of incident
+
+</li>
+<li>managing workarounds and known errors
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>phrase
+<ul><li>&#xa;    <p>&#xa;      problem identification <b>-&gt; </b>&#xa;    </p>&#xa;    <p>&#xa;      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;problem control <b>-&gt; </b>&#xa;    </p>&#xa;    <p>&#xa;      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;error control&#xa;    </p>&#xa;  
+<ul><li>problem identification
+<ul><li>activities
+<ul><li>trend analysis of incidents
+
+</li>
+<li>detection of duplicate / recurring issues
+
+</li>
+<li>major incident mgmt
+<ul><li>identify risk of incident recurring
+
+</li>
+
+</ul>
+</li>
+<li>analysing information received
+<ul><li>suppliers and partner
+
+</li>
+<li>internal software developers
+
+</li>
+<li>test teams
+
+</li>
+<li>project teams
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>problem control
+<ul><li>problem analysis
+
+</li>
+<li>documenting
+<ul><li>workarounds
+
+</li>
+<li>known errors
+
+</li>
+
+</ul>
+</li>
+<li>consider all contributory causes
+<ul><li>duration / impact of incident
+
+</li>
+<li>causes led to incident happening
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>error control
+<ul><li><p>manage known errors
+&#xa;    <p>&#xa;      identification of&#xa;    </p>&#xa;    <p>&#xa;      &#160;potential permanent solution&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      resulting in<u>&#160;change request</u>&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      justified by&#xa;    </p>&#xa;    <p>&#xa;      &#160;cost,&#xa;    </p>&#xa;    <p>&#xa;      &#160;risk,&#xa;    </p>&#xa;    <p>&#xa;      &#160;benefits&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>&#xa;    <p>&#xa;      regularly re-assess&#xa;    </p>&#xa;    <p>&#xa;      &#160;status of known errors&#xa;    </p>&#xa;  
+<ul><li>overall impact on customers
+
+</li>
+<li>availability
+
+</li>
+<li>cost of permanent resolution
+
+</li>
+<li>effectiveness of workarounds
+<ul><li>evaluate everytime is used
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>interface between practices
+<ul><li>&#xa;    <p>&#xa;      can be organised as<u>&#160;risk mgmt </u>cases&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      initiate change&#xa;    </p>&#xa;    <p>&#xa;      &#160;via<u>&#160;change request</u>&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      participate<u>&#160;post-implementation review</u>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      approving and implementing change&#xa;    </p>&#xa;    <p>&#xa;      &#160;is out of problem mgmt scope&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      output -&gt;&#xa;    </p>&#xa;    <p>&#xa;      &#160;information / documentation concerning&#xa;    </p>&#xa;    <p>&#xa;      &#160;<u>workarounds</u>&#160;/ <u>known errors</u>&#xa;    </p>&#xa;  
+<ul><li>utilises knowledge mgmt
+
+</li>
+
+</ul><p>identify improvement opportunities
+<ul><li>included in continual improvement register (CIR)
+
+</li>
+<li>continual improvement technique used
+
+</li>
+<li>part of product backlog
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_31" class="foldclosed" onClick="show_folder('1_31')" style="POSITION: absolute">+</span> <span id="hide1_31" class="foldopened" onClick="hide_folder('1_31')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">release mgmt</span>
+<ul id="fold1_31" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to make new and changed services and features available for use
+
+</li>
+
+</ul>
+</li>
+<li>actions
+<ul><li>release plan
+
+</li>
+<li>release schedule
+
+</li>
+<li>release post implementation review
+
+</li>
+
+</ul>
+</li>
+<li>staging
+<ul><li>blue / green release
+<ul><li>uses 2 mirrored production environments
+
+</li>
+
+</ul>
+</li>
+<li>feature flag
+<ul><li>new functionality deployed to production without being released
+
+</li>
+<li>user configuration setting releases new functionality to individual user
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_32" class="foldclosed" onClick="show_folder('1_32')" style="POSITION: absolute">+</span> <span id="hide1_32" class="foldopened" onClick="hide_folder('1_32')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service catalog mgmt</span>
+<ul id="fold1_32" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to provide&#xa;    </p>&#xa;    <p>&#xa;      &#160;single source of&#xa;    </p>&#xa;    <p>&#xa;      &#160;consistent information on&#xa;    </p>&#xa;    <p>&#xa;      &#160;all<u>&#160;services </u>and<u>&#160;service offerings</u>,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and to ensure it is available to relevant audience&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>tailored view
+<ul><li><p>user view
+<ul><li>provisioning details
+
+</li>
+
+</ul><p>customer view
+<ul><li>service level
+
+</li>
+<li>financial performance
+
+</li>
+<li>service performance
+
+</li>
+
+</ul><p>IT to IT customer view
+<ul><li>technical
+
+</li>
+<li>security
+
+</li>
+<li>process information for service delivery
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      <u>request catalogues</u>&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      focus on&#xa;    </p>&#xa;    <p>&#xa;      &#160;consumable or orderable elements&#xa;    </p>&#xa;    <p>&#xa;      &#160;of <u>service offering</u>&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_33" class="foldclosed" onClick="show_folder('1_33')" style="POSITION: absolute">+</span> <span id="hide1_33" class="foldopened" onClick="hide_folder('1_33')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service configuration mgmt</span>
+<ul id="fold1_33" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure&#xa;    </p>&#xa;    <p>&#xa;      &#160;accurate and reliable information&#xa;    </p>&#xa;    <p>&#xa;      &#160;about configuration of services,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and the <u>CIs </u>supporting them&#xa;    </p>&#xa;    <p>&#xa;      &#160;(available when and where is needed)&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      include information on&#xa;    </p>&#xa;    <p>&#xa;      &#160;how CIs are configured and&#xa;    </p>&#xa;    <p>&#xa;      &#160;the relationship between them&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>tools
+<ul><li>configuration mgmt system (CMS)
+
+</li>
+<li>configuration mgmt database (CMDB)
+<ul><li>&#xa;    <p>&#xa;      <u>configuration records</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>infrastructure as code
+
+</li>
+
+</ul>
+</li>
+<li>configuration mgmt
+<ul><li>&#xa;    <p>&#xa;      identify new <u>CI</u>s, add them to<u>&#160;CMS</u>&#xa;    </p>&#xa;  
+<p>update configuration data
+<p>verify configuration records
+<p>audit application and infrastructure
+<ul><li>identify any not documented
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_34" class="foldclosed" onClick="show_folder('1_34')" style="POSITION: absolute">+</span> <span id="hide1_34" class="foldopened" onClick="hide_folder('1_34')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service continuity mgmt</span>
+<ul id="fold1_34" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to ensure availability and performance of service
+<ul><li>&#xa;    <p>&#xa;      maintained at sufficient levels in case of <u>disaster</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>provide framework for building org resilience
+<ul><li>&#xa;    <p>&#xa;      capability of producing&#xa;    </p>&#xa;    <p>&#xa;      &#160;effective response that safeguards interests of stakeholders and&#xa;    </p>&#xa;    <p>&#xa;      &#160;org reputation, brand, and value-creating activities&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>supports business continuity mgmt (BCM)
+
+</li>
+
+</ul>
+</li>
+<li>risk mgmt conditions
+<ul><li>disaster source
+
+</li>
+<li>stakeholders involved
+
+</li>
+<li>org impact
+
+</li>
+
+</ul>
+</li>
+<li>service continuity vs incident mgmt
+<ul><li>&#xa;    <p>&#xa;      distinction between disasters, major incidents and incidents&#xa;    </p>&#xa;    <p>&#xa;      &#160;needs to be pre-defined, agree and documented&#xa;    </p>&#xa;    <p>&#xa;      &#160;with clear thresholds and triggers&#xa;    </p>&#xa;    <p>&#xa;      &#160;for calling the next tier of response and recovery into action&#xa;    </p>&#xa;    <p>&#xa;      &#160;without unnecessary delay and risk&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_35" class="foldclosed" onClick="show_folder('1_35')" style="POSITION: absolute">+</span> <span id="hide1_35" class="foldopened" onClick="hide_folder('1_35')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service design</span>
+<ul id="fold1_35" style="POSITION: relative; VISIBILITY: visible;"><li><p>key
+<ul><li>&#xa;    <p>&#xa;      to design products and services that&#xa;    </p>&#xa;    <p>&#xa;      &#160;fit for purpose,&#xa;    </p>&#xa;    <p>&#xa;      &#160;fit for use,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and can be delivered by org and its ecosystem&#xa;    </p>&#xa;  
+<p>includes planning and organising 
+<ul><li>people, partners and suppliers
+
+</li>
+<li>information, communication, technologies
+
+</li>
+<li>practices for new or changed products and services
+
+</li>
+<li>interaction between org and its customers
+
+</li>
+
+</ul></li>
+</ul>&#xa;    <p>&#xa;      focus on&#xa;    </p>&#xa;    <p>&#xa;      &#160;customer experience (CX) and&#xa;    </p>&#xa;    <p>&#xa;      &#160;user experience (UX)&#xa;    </p>&#xa;  
+<ul><li><p>result in customer-centred products and services that include stakeholder in design activities
+<p>consider entire environment of product or service
+<p>enable more accurate estimation
+<ul><li>cost
+
+</li>
+<li>timing
+
+</li>
+<li>resource
+
+</li>
+<li>risk
+
+</li>
+
+</ul><p>result in higher volume of successful change
+<p>make design methods easier to adopt and follow
+<p>enable service design assets shared and re-used
+<p>increase confidence of changes without unexpectedly affecting other products, services, or stakeholders
+<p>ensure changes will be maintainable and cost-effective
+</li>
+</ul><p>consider impact on
+<ul><li>other products and services
+
+</li>
+<li>all parties including customers and suppliers
+
+</li>
+<li>existing architecture
+
+</li>
+<li>required technology
+
+</li>
+<li>service mgmt practices
+
+</li>
+<li>necessary measurements and metrics
+
+</li>
+
+</ul><p>supports products and services that
+<ul><li>business-and customer-oriented, focused, and driven
+
+</li>
+<li>cost effective
+
+</li>
+<li>meet information and physical security requirement of org and external customer
+
+</li>
+<li>flexible and adaptable, yet fit for purpose at point of delivery
+
+</li>
+<li>absorb ever-increasing demand in volume and speed of change
+
+</li>
+<li>meet increasing org and customer demands for continuous operation
+
+</li>
+<li>managed and operated to acceptable level of risk
+
+</li>
+
+</ul><p>design thinking activities
+<ul><li>inspiration and empathy
+<ul><li>direct observation of people and how they work or interact with products and services
+
+</li>
+<li>identifying how they might interact differently with other solutions
+
+</li>
+
+</ul>
+</li>
+<li>ideation
+<ul><li>combine divergent and convergent thinking
+
+</li>
+<li>divergent thinking -&gt;
+<ul><li>ability to offer different, unique or variant ideas
+
+</li>
+<li>ensures many possible solutions are explored
+
+</li>
+
+</ul>
+</li>
+<li>convergent thinking -&gt;
+<ul><li>ability to find preferred solution to a given problem
+
+</li>
+<li>narrows ideas down to final preferred solution
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>prototyping
+<ul><li><p>ideas are tested early, iterated, and refined
+<p>prototype helps gather feedback and improve idea
+<p>prototype speed up process of innovation by allowing service designers to better understand the strengths and weaknesses of new solution
+</li>
+</ul>
+</li>
+<li>implementation
+<ul><li>concepts are brought to life
+
+</li>
+<li>coordinated with all relevant service mgmt practices and other parties
+
+</li>
+<li>Agile methodologies can be employed to develop and implement solution in iterative way
+
+</li>
+
+</ul>
+</li>
+<li>evaluation
+<ul><li>in conjunction with other practices
+<ul><li>project mgmt
+
+</li>
+<li>release mgmt
+
+</li>
+
+</ul>
+</li>
+<li>measures actual performance of product or service implementation
+
+</li>
+<li>to ensure acceptance criteria are met, and to find any opportunities for improvements
+
+</li>
+
+</ul>
+</li>
+
+</ul><p>Lean user experience (Lean UX)
+<ul><li>embrace Lean-Agile methods
+
+</li>
+<li>implement functionality in minimum viable increments
+
+</li>
+<li>determine success by measuring results against an outcome hypothesis
+
+</li>
+<li>focus on obtaining feedback as early as possible, to make quick decision
+
+</li>
+<li>questions to ask
+<ul><li>Who are the customers?
+
+</li>
+<li>What is it used for?
+
+</li>
+<li>When it is used and under what circumstances?
+
+</li>
+<li>What is the most important functionality?
+
+</li>
+<li>What are the biggest risk
+
+</li>
+
+</ul>
+</li>
+<li>team to prioritise by the risks they represent to the org and its customers
+
+</li>
+
+</ul><p>risk mgmt is embedded within all design process and activities
+</li>
+</ul>
+</li>
+<li><span id="show1_36" class="foldclosed" onClick="show_folder('1_36')" style="POSITION: absolute">+</span> <span id="hide1_36" class="foldopened" onClick="hide_folder('1_36')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service desk</span>
+<ul id="fold1_36" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>to capture demand for incident resolution and service request
+
+</li>
+<li>should also be the entry point and single point of contact for service providers with all its users
+
+</li>
+
+</ul>
+</li>
+<li>channel of access
+<ul><li><p>phone calls
+<ul><li>interactive voice response (IVR)
+
+</li>
+<li>conference call
+
+</li>
+<li>voice recognition
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      service portals and&#xa;    </p>&#xa;    <p>&#xa;      &#160;mobile applications&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      supported by service and request catalogues&#xa;    </p>&#xa;    <p>&#xa;      &#160;and knowledge bases&#xa;    </p>&#xa;  
+</li>
+</ul><p>chat
+<ul><li>live chat
+
+</li>
+<li>chat bots
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      email for logging and updating,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and for follow-up surveys&#xa;    </p>&#xa;    <p>&#xa;      &#160;and confirmations&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      unstructured email&#xa;    </p>&#xa;    <p>&#xa;      &#160;difficult to process&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      AI and machine learning&#xa;    </p>&#xa;    <p>&#xa;      &#160;can address this&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul><p>walk-in service desk
+<ul><li>where high peaks activity demands physical presence
+
+</li>
+
+</ul><p>text and social media messaging
+<ul><li>useful for notification
+<ul><li>contacting specific stakeholder groups
+
+</li>
+
+</ul>
+</li>
+<li>allow users to request support
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      public and corporate social media&#xa;    </p>&#xa;    <p>&#xa;      &#160;and discussion forums&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      contacting service provider&#xa;    </p>&#xa;    <p>&#xa;      &#160;and peer-to-peer support&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+<li>supporting technologies
+<ul><li><p>intelligent telephony system
+<ul><li>computer-telephony integration
+
+</li>
+<li>IVR
+
+</li>
+<li>automatic call distribution
+
+</li>
+
+</ul><p>workflow system
+<ul><li>routing
+
+</li>
+<li>escalation
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      workforce mgmt &amp;&#xa;    </p>&#xa;    <p>&#xa;      &#160;resource planning systems&#xa;    </p>&#xa;  
+<p>knowledge base
+<p>call recording &amp; quality control
+<p>remote access tools
+<p>dashboard &amp; monitoring tools
+<p>configuration mgmt systems
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_37" class="foldclosed" onClick="show_folder('1_37')" style="POSITION: absolute">+</span> <span id="hide1_37" class="foldopened" onClick="hide_folder('1_37')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service level mgmt</span>
+<ul id="fold1_37" style="POSITION: relative; VISIBILITY: visible;"><li><p>key
+<ul><li><p>to set clear business-based targets for service levels
+&#xa;    <p>&#xa;      to ensure delivery of services is&#xa;    </p>&#xa;    <p>&#xa;      &#160;properly assessed, monitored,&#xa;    </p>&#xa;    <p>&#xa;      &#160;and managed&#xa;    </p>&#xa;    <p>&#xa;      &#160;against these targets&#xa;    </p>&#xa;  
+</li>
+</ul><p>service level mgmt
+<ul><li>&#xa;    <p>&#xa;      established a shared view of services&#xa;    </p>&#xa;    <p>&#xa;      &#160;and target service level with customers&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      ensures org meets&#xa;    </p>&#xa;    <p>&#xa;      &#160;defined service levels&#xa;    </p>&#xa;    <p>&#xa;      &#160;thru -&gt;&#xa;    </p>&#xa;  
+<ul><li>collection
+
+</li>
+<li>analysis
+
+</li>
+<li>storage
+
+</li>
+<li>reporting
+
+</li>
+<li>of relevant metrics of identified services
+
+</li>
+
+</ul><p>performs service review
+<ul><li>&#xa;    <p>&#xa;      ensure current set of services&#xa;    </p>&#xa;    <p>&#xa;      &#160;continues to meet the needs&#xa;    </p>&#xa;    <p>&#xa;      &#160;of org and its customers&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      captures and reports&#xa;    </p>&#xa;    <p>&#xa;      &#160;on service issues&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      includes performance against&#xa;    </p>&#xa;    <p>&#xa;      &#160;defined service levels&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>&#xa;    <p>&#xa;      service level agreements&#xa;    </p>&#xa;    <p>&#xa;      &#160;requirement&#xa;    </p>&#xa;  
+<ul><li><p>must relate to defined 'service' in service catalogue
+&#xa;    <p>&#xa;      should relate to defined outcomes&#xa;    </p>&#xa;    <p>&#xa;      &#160;and not simply operational metrics&#xa;    </p>&#xa;  
+<p>should reflect an 'agreement'
+<ul><li>&#xa;    <p>&#xa;      i.e. engagement and discussion between&#xa;    </p>&#xa;    <p>&#xa;      &#160;service provider and service consumer&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      must be simply written&#160;and&#xa;    </p>&#xa;    <p>&#xa;      &#160;easy to understand and&#xa;    </p>&#xa;    <p>&#xa;      &#160;use for all parties&#xa;    </p>&#xa;  
+</li>
+</ul><p>watermelon SLA
+<ul><li>SLA may appear green on the outside but actually red inside
+
+</li>
+<li>without business context, metrics are often meaningless
+
+</li>
+
+</ul><p>information source
+<ul><li>customer engagement
+<ul><li>initial listening
+
+</li>
+<li>discovery
+
+</li>
+<li>information capture
+<ul><li>base metrics
+
+</li>
+<li>measurement
+
+</li>
+
+</ul>
+</li>
+<li>progress discussion
+
+</li>
+
+</ul>
+</li>
+<li>customer feedback
+<ul><li>survey
+
+</li>
+<li>key business-related measures
+
+</li>
+
+</ul>
+</li>
+<li>operational metrics
+<ul><li>&#xa;    <p>&#xa;      low level indicators&#xa;    </p>&#xa;    <p>&#xa;      &#160;of operational activities&#xa;    </p>&#xa;  
+<ul><li>system availability
+
+</li>
+<li>incident response &amp; fix time
+
+</li>
+<li>change and request processing time
+
+</li>
+<li>system response time
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>business metrics
+<ul><li>&#xa;    <p>&#xa;      any business activity&#xa;    </p>&#xa;    <p>&#xa;      &#160;deemed useful or valuable&#xa;    </p>&#xa;    <p>&#xa;      &#160;by customer&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li><span id="show1_38" class="foldclosed" onClick="show_folder('1_38')" style="POSITION: absolute">+</span> <span id="hide1_38" class="foldopened" onClick="hide_folder('1_38')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service request mgmt</span>
+<ul id="fold1_38" style="POSITION: relative; VISIBILITY: visible;"><li>key
+<ul><li>&#xa;    <p>&#xa;      to support the agreed quality of service by&#xa;    </p>&#xa;    <p>&#xa;      &#160;handling all pre-defined, user initiated service requests&#xa;    </p>&#xa;    <p>&#xa;      &#160;in effective and user-friendly manner&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>components
+<ul><li>request for service delivery action
+<ul><li>i.e. reports or goods
+
+</li>
+
+</ul>
+</li>
+<li>request for information
+
+</li>
+<li>request for provision of resource or service
+<ul><li>i.e. providing laptop, vm etc
+
+</li>
+
+</ul>
+</li>
+<li>request for access to resource or service
+
+</li>
+<li>feedback, compliments and complaints
+
+</li>
+
+</ul>
+</li>
+<li>guidelines
+<ul><li><p>request and fulfilment should be standardise and automated to greatest degree
+<p>policies should be established
+<ul><li>&#xa;    <p>&#xa;      what service request to fulfilled with limited or no additional approval&#xa;    </p>&#xa;    <p>&#xa;      &#160;so that fulfilment can be streamlined&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      expectation of users on&#xa;    </p>&#xa;    <p>&#xa;      &#160;fulfilment time&#xa;    </p>&#xa;    <p>&#xa;      &#160;should be clearly&#160;set&#xa;    </p>&#xa;  
+<ul><li>based on what org can realistically deliver
+
+</li>
+
+</ul><p>opportunities for improvement should be identified and implemented
+&#xa;    <p>&#xa;      policies and workflow should be included for&#xa;    </p>&#xa;    <p>&#xa;      &#160;documenting and&#xa;    </p>&#xa;    <p>&#xa;      &#160;redirecting of request submitted as service request&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_39" class="foldclosed" onClick="show_folder('1_39')" style="POSITION: absolute">+</span> <span id="hide1_39" class="foldopened" onClick="hide_folder('1_39')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">service validation and testing</span>
+<ul id="fold1_39" style="POSITION: relative; VISIBILITY: visible;"><li><p>key
+<ul><li>to ensure new or changed products and services meet defined requirements
+
+</li>
+<li>definition of service value
+<ul><li><p>based on input from -&gt;
+<ul><li>customers
+
+</li>
+<li>business objectives
+
+</li>
+<li>regulatory requirements
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      documented as part of&#xa;    </p>&#xa;    <p>&#xa;      &#160;value chain activity of&#xa;    </p>&#xa;    <p>&#xa;      &#160;design and transition&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      inputs used to establish measureable quality and performance indicators&#xa;    </p>&#xa;    <p>&#xa;      &#160;that support definition of assurance criteria and testing requirements&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      service<u>&#160;validation</u>&#xa;    </p>&#xa;  
+<ul><li>focus on establishing deployment and release mgmt acceptance criteria
+
+</li>
+<li>establish, verify, and document both utility- and warranty-focused service assurance criteria
+
+</li>
+<li>form basis for scope and focus of testing activities
+
+</li>
+
+</ul><p>testing
+<ul><li>utility / functional 
+<ul><li>unit test
+
+</li>
+<li>system test
+<ul><li>software
+
+</li>
+<li>platform
+
+</li>
+
+</ul>
+</li>
+<li>integration test
+
+</li>
+
+</ul>
+</li>
+<li>regression
+<ul><li>performance and capacity test
+
+</li>
+<li>security test
+
+</li>
+<li>compliance test
+
+</li>
+<li>operational test
+<ul><li>backup
+
+</li>
+<li>event monitoring
+
+</li>
+<li>failover
+
+</li>
+<li>recovery
+
+</li>
+<li>report
+
+</li>
+
+</ul>
+</li>
+<li>warranty requirement test
+<ul><li>verification of -&gt;
+<ul><li>documentation
+
+</li>
+<li>training
+
+</li>
+<li>support model definition
+
+</li>
+<li>knowledge transfer
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>user acceptance
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>technical mgmt practices
+<ul><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">deployment mgmt</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      to move new or changed&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;hardware, software,&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;documentation, processes,&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;or any other components&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;to live environment&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      involve deploying components to&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;other environment for testing or staging&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>approach
+<ul><li>phased deployment
+<ul><li><p>deploy just part of production environment at a time
+<ul><li>i.e. office / country
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      operation repeated as many times as needed&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;until deployment is complete&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>continuous delivery
+<ul><li>integrated, tested, deployed when needed
+
+</li>
+<li>providing frequent feedback opportunities for customer feedback loops
+
+</li>
+
+</ul>
+</li>
+<li>big bang deployment
+<ul><li><p>deploy to all targets at the same time
+&#xa;    <p>&#xa;      needed when dependencies prevent the simultaneous use&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;of both old and new components&#xa;    </p>&#xa;  
+<ul><li>i.e. database schema change
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>pull deployment
+<ul><li><p>changes made available in a controlled repository
+<p>user download software to client devices 
+&#xa;    <p>&#xa;      user control timing of updates,&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;can be integrated with service request mgmt&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;to enable users to request software only when needed&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">infrastructure and platform mgmt</span>
+<ul><li><p>key
+<ul><li><p>to oversee infrastructure and platforms used by org
+&#xa;    <p>&#xa;      enables&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;monitoring of technology solutions available to org,&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;including technology of external service providers&#xa;    </p>&#xa;  
+</li>
+</ul><p>cloud service models
+<ul><li>Software-as-a-Service (SaaS)
+<ul><li>&#xa;    <p>&#xa;      use application without having to &#xa;    </p>&#xa;    <p>&#xa;      control / manage underlying cloud infrastructure&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>Platform-as-a-Service (PaaS)
+<ul><li><p>consumer deploy onto cloud resources
+&#xa;    <p>&#xa;      have control over deployed applications and&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;configuration settings for host environment&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>Infrastructure-as-a-Service (IaaS)
+<ul><li>&#xa;    <p>&#xa;      consumer get processing, storage, and/or&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;any other computing resources&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      cloud service&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;deployment models&#xa;    </p>&#xa;  
+<ul><li>private cloud
+<ul><li>may locate within or outside org
+
+</li>
+<li>used exclusively by specific org
+<ul><li>can have one or more consumers
+
+</li>
+
+</ul>
+</li>
+<li>normally managed and owned by an org, provider or both
+
+</li>
+
+</ul>
+</li>
+<li>public cloud
+<ul><li><p>located on cloud provider premises
+<p>provision for open use
+&#xa;    <p>&#xa;      may be owned, managed, and operated&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;by any org interested in it&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>community cloud
+<ul><li>&#xa;    <p>&#xa;      may be owned, managed, and operated&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;by one or more stakeholders in community&#xa;    </p>&#xa;  
+<p>may exist on or off org premise
+&#xa;    <p>&#xa;      meant to support and share&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;a collection of cloud service&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;customers -&gt;&#xa;    </p>&#xa;  
+<ul><li>with same requirements
+
+</li>
+<li>who have a relationship with one another
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>hybrid cloud
+<ul><li>&#xa;    <p>&#xa;      a composition of two or more&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;distinct cloud infrastructure&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;(private, community, or public)&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;that remain unique entities&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      but bound together by standardised or proprietary technology&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;that enables data and application portability&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+
+</ul>&#xa;    <p>&#xa;      ITIL practice and&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;cloud computing&#xa;    </p>&#xa;  
+<ul><li>joined-up approach covering strategic, tactical, and operational, is required
+
+</li>
+<li>other ITIL practices
+<ul><li>service financial mgmt
+<ul><li>fiscal planning
+<ul><li>OPEX preferred over CAPEX
+<ul><li>cost grows as more parts of business uses
+
+</li>
+
+</ul>
+</li>
+<li>IT cost model must be adjusted
+
+</li>
+
+</ul>
+</li>
+<li>help to determined techniques and controls
+<ul><li>to ensure org does not run out OPEX unexpectedly
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>supplier mgmt
+<ul><li>&#xa;    <p>&#xa;      ensure areas such as &#xa;    </p>&#xa;    <p>&#xa;      &#xa0;IT security, data protection, and regulatory compliance&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;are routinely assessed prior to onboarding new cloud offering&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>capacity and performance mgmt
+<ul><li>coupled with service financial mgmt
+
+</li>
+<li>establish and monitor budgets
+
+</li>
+<li>threshold tracked and warning published if upswing in demand
+
+</li>
+
+</ul>
+</li>
+<li>change control
+<ul><li><p>boundaries to be redefined 
+<ul><li>&#xa;    <p>&#xa;      cloud service providers&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;make changes with&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;minimal customer involvement&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;and no customer approval&#xa;    </p>&#xa;  
+</li>
+</ul>&#xa;    <p>&#xa;      will need to make far greater use&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;of<u>&#xa0;standard change &#xa;</u>    </p>&#xa;    <p>&#xa;      &#xa0;to&#xa0;unlock benefits of cloud platform provide&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>incident mgmt
+<ul><li>&#xa;    <p>&#xa;      change from knowing how to fix inhouse issues -&gt;&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;to knowing which service is supported by which cloud provider,&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;and knowing what information to provided to resolve issue&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>deployment mgmt
+<ul><li>&#xa;    <p>&#xa;      ability to safely onboard or offboard&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;cloud provider will become&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;a common requirement&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      ensure new cloud capabilities&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;rapidly deployed and embedded&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;within inhouse service offering&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">software development and mgmt</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      to ensure application meet&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;internal and external&#xa;    </p>&#xa;    <p>&#xa;      &#xa0;stakeholder needs -&gt;&#xa;    </p>&#xa;  
+<ul><li>functionality
+
+</li>
+<li>reliability
+
+</li>
+<li>maintainability
+
+</li>
+<li>compliance
+
+</li>
+<li>auditability
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>activities
+<ul><li>solution architecture
+
+</li>
+<li>solution design
+<ul><li>user interface
+
+</li>
+<li>CX
+
+</li>
+<li>service design
+
+</li>
+
+</ul>
+</li>
+<li>software development
+
+</li>
+<li>software testing
+
+</li>
+<li>mgmt of code repository or libraries
+<ul><li>maintain integrity of artefacts
+
+</li>
+
+</ul>
+</li>
+<li>package creation
+<ul><li>effective and efficient deployment
+
+</li>
+
+</ul>
+</li>
+<li>version control, sharing, and ongoing mgmt
+<ul><li>smaller blocks of code
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span id="show1_40" class="foldclosed" onClick="show_folder('1_40')" style="POSITION: absolute">+</span> <span id="hide1_40" class="foldopened" onClick="hide_folder('1_40')">-</span>
+<span style="font-family: SansSerif, sans-serif; font-weight: bold; ">Continual improvement</span>
+<ul id="fold1_40" style="POSITION: relative; VISIBILITY: visible;"><li>continual improvement model
+<ul><li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">what is the vision?</span>
+<ul><li>key
+<ul><li>&#xa;    <p>&#xa;      each improvement initiative should&#xa;    </p>&#xa;    <p>&#xa;      support org goal and objective&#xa;    </p>&#xa;  
+<p>first step of continual improvement model
+<p>provides context for
+<ul><li>all decision
+
+</li>
+<li>links actions to org vision
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">where are we now?</span>
+<ul><li>key
+<ul><li>clear and accurate understanding 
+<ul><li>starting point
+
+</li>
+<li>impact of initiative
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-style: italic; ">improvement -&gt; </span>
+<ul><li><span style="font-family: SansSerif, sans-serif; font-style: italic; ">journey from point A to point B</span>
+
+</li>
+
+</ul>
+</li>
+<li>clearly defines point A
+
+</li>
+<li>journey cannot be mapped if starting point is not known
+
+</li>
+
+</ul>
+</li>
+<li>to be measurable
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">where do we want to be?</span>
+<ul><li>key
+<ul><li>outlines point B
+<ul><li>target state for next step
+
+</li>
+
+</ul>
+</li>
+<li>journey cannot be mapped if destination is not known
+
+</li>
+
+</ul>
+</li>
+<li>gap analysis
+<ul><li>CSF
+
+</li>
+<li>KPI
+
+</li>
+<li>using SMART principle
+<ul><li>specific
+
+</li>
+<li>measurable
+
+</li>
+<li>achievable
+
+</li>
+<li>relevant
+
+</li>
+<li>time bound
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>target state -&gt; 
+<ul><li>progress towards vision
+
+</li>
+<li>NOT achievement of entire vision
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">how do we get there?</span>
+<ul><li>key
+<ul><li>the route of the improvement journey
+<ul><li>most effective approach may not be clear
+
+</li>
+
+</ul>
+</li>
+<li>sometime necessary to design experiments to test most potential options
+
+</li>
+<li>even path is clear
+<ul><li>most effective to work in iterations
+
+</li>
+<li>each iteration
+<ul><li>check progress
+
+</li>
+<li>re-evaluate approach
+
+</li>
+<li>change direction if appropriate
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">take action</span>
+<ul><li>key
+<ul><li>to act upon plan
+<ul><li>waterfall
+
+</li>
+<li>agile
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">did we get there?</span>
+<ul><li>key
+<ul><li>path to improvement is filled with various obstacles
+
+</li>
+<li>success must be validated
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">how to keep momentum going?</span>
+<ul><li>key
+<ul><li>if improvement delivers expected value
+<ul><li>focus to market these success
+
+</li>
+<li>reinforce new method introduced
+
+</li>
+<li>ensure progress made is NOT lost
+
+</li>
+<li>build support and momentum for next improvement
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>continual improvement model &amp; guiding principles
+<ul><li>Theory of constraints (ToC)
+<ul><li>&#xa;    <p>&#xa;      weakest link in the value chain&#xa;    </p>&#xa;    <p>&#xa;      determines the flow and throughout&#xa;    </p>&#xa;    <p>&#xa;      of the system&#xa;    </p>&#xa;  
+<p>constraint improvement
+<ul><li>Lean -&gt; value stream mapping
+
+</li>
+<li>Agile principles &amp; practice
+
+</li>
+<li>Devops practices
+
+</li>
+<li>ITIL practices
+<ul><li>incident mgmt
+
+</li>
+<li>problem mgmt
+
+</li>
+<li>service desk
+
+</li>
+<li>infra &amp; platform mgmt
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul><p>definitions
+<ul><li>service mgmt
+<ul><li>&#xa;    <p>&#xa;      a set of specialised organisational capabilities for&#xa;    </p>&#xa;    <p>&#xa;      enabling value for customers in the form of services&#xa;    </p>&#xa;  
+<ul><li>nature of value
+
+</li>
+<li>nature and scope of stakeholders
+
+</li>
+<li>how value creation is enabled thru' services
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>value
+<ul><li>the perceived benefits, usefulness and importance of something
+
+</li>
+
+</ul>
+</li>
+<li>organisation (org)
+<ul><li>&#xa;    <p>&#xa;      a person or group that has its own functions with&#xa;    </p>&#xa;    <p>&#xa;      responsibilities, authorities and relationships to achieve its objectives&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>customer
+<ul><li>who defines requirement for service and takes responsibility for service consumption outcome
+
+</li>
+
+</ul>
+</li>
+<li>user
+<ul><li>who uses services
+
+</li>
+
+</ul>
+</li>
+<li>sponsor
+<ul><li>who authorises budget for service consumption
+
+</li>
+
+</ul>
+</li>
+<li>services
+<ul><li>&#xa;    <p>&#xa;      enabling value co-creation by facilitating outcomes that&#xa;    </p>&#xa;    <p>&#xa;      customers wants to achieve,&#xa;    </p>&#xa;    <p>&#xa;      without customer managing specific costs and risks&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>product
+<ul><li>configuration of org's resources designed to offer value to customers
+
+</li>
+
+</ul>
+</li>
+<li>service offering
+<ul><li>&#xa;    <p>&#xa;      a formal description of one or more services designed&#xa;    </p>&#xa;    <p>&#xa;      to address the needs of a target consumer group&#xa;    </p>&#xa;  
+<ul><li>&#xa;    <p>&#xa;      <u>goods</u>&#xa;    </p>&#xa;  
+<p>access resources
+&#xa;    <p>&#xa;      <u>service actions</u>&#xa;    </p>&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+<li>service relationship
+<ul><li>cooperation between service provider and consumer
+<ul><li>&#xa;    <p>&#xa;      <u>service provision</u>&#xa;    </p>&#xa;  
+<p>service consumption
+&#xa;    <p>&#xa;      <u>service relationship management</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>service provision
+<ul><li>activities performed by org to provide services
+<ul><li>mgmt of provider's resources, configured to deliver the service
+
+</li>
+<li>ensuring access to these resources for users
+
+</li>
+<li>fulfilment of agreed service actions
+
+</li>
+<li>service level management and continual improvement
+
+</li>
+<li>supplying of goods
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>service consumption
+<ul><li>activities performed by org to consume services
+<ul><li>mgmt of consumer's resources needed to use the services
+
+</li>
+<li>service actions perform by users
+<ul><li>utilising provider's resources
+
+</li>
+<li>requesting service actions to be fulfilled
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>service relationship management
+<ul><li>joint activities performed by service provider and consumer
+<ul><li>ensure continual value co-creation based on agreed and available service offering
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>output
+<ul><li>tangible or intangible deliverable of an activity
+
+</li>
+
+</ul>
+</li>
+<li>outcome
+<ul><li>result for a stakeholder enabled by one or more output
+
+</li>
+
+</ul>
+</li>
+<li><span style="font-family: SansSerif, sans-serif; font-weight: bold; ">$ cost</span>
+<ul><li>amount of money spent on a specific activity or resource
+
+</li>
+
+</ul>
+</li>
+<li>risk
+<ul><li>&#xa;    <p>&#xa;      possible <u>event</u>&#160;that could cause harm or loss, or make it more difficult to achieve objective&#xa;    </p>&#xa;  
+<p>also defined as uncertainty of outcome
+<p>used in the context of measuring the probability of positive outcomes as well as negative outcomes
+</li>
+</ul>
+</li>
+<li>utility
+<ul><li>functionality offered by product or service to meet particular need
+<ul><li>'what the service does'
+
+</li>
+<li>determine service is 'fit for purpose'
+
+</li>
+
+</ul>
+</li>
+<li>a service must (either) 
+<ul><li>support performance of consumer
+
+</li>
+<li>or remove constraints from consumers
+
+</li>
+<li>many services do both
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>warranty
+<ul><li><p>assurance that product or service will meet agreed requirement
+<ul><li>'how the service performs'
+
+</li>
+<li>determine service is 'fit for use'
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      often relates to <u>service levels</u>&#160;aligned with the needs of service consumer&#xa;    </p>&#xa;  
+<ul><li>based on formal agreement
+
+</li>
+<li>or marketing message or brand image
+
+</li>
+
+</ul><p>typically addresses areas
+<ul><li>&#xa;    <p>&#xa;      <u>availability</u>&#160;of servuce&#xa;    </p>&#xa;  
+<p>capacity
+<p>levels of security
+<p>continuity
+</li>
+</ul><p>a service said to provide acceptable assurance, or 'warranty', if all defined and agreed conditions are met
+</li>
+</ul>
+</li>
+<li>cloud computing
+<ul><li>a model for enabling on-demand network access to a shared pool of configurable computing resources
+
+</li>
+<li>rapidly provided with minimal management effort or provider interaction
+
+</li>
+
+</ul>
+</li>
+<li>value stream
+<ul><li>series of steps an org undertakes to create and deliver product and services to consumers
+
+</li>
+
+</ul>
+</li>
+<li>process
+<ul><li>set of interrelated or interacting activities that transform inputs into outputs
+
+</li>
+<li>a process take one or more defined inputs and turns them into defined outputs
+
+</li>
+<li>defines sequence of action and their dependencies
+
+</li>
+
+</ul>
+</li>
+<li>critical success factors (CSF)
+<ul><li>necessary precondition for achievement of intended results
+
+</li>
+
+</ul>
+</li>
+<li>key performance indicators (KPI)
+<ul><li>metric used to evaluate the success in meeting an objective
+
+</li>
+
+</ul>
+</li>
+<li>organisational velocity
+<ul><li>speed, effectiveness and efficiency which org operates
+
+</li>
+<li>influences time to market, quality, safety, costs and risks
+
+</li>
+
+</ul>
+</li>
+<li>competencies
+<ul><li>&#xa;    <p>&#xa;      combination of observable and measureable&#xa;    </p>&#xa;    <p>&#xa;      &#160;knowledge, skills, abilities, and attitudes&#xa;    </p>&#xa;    <p>&#xa;      &#160;that contribute to enhanced employee performance&#xa;    </p>&#xa;    <p>&#xa;      &#160;and ultimately result in org success&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>skills
+<ul><li>developed proficiency or dexterity in thought, verbal, communication and physical action
+
+</li>
+
+</ul>
+</li>
+<li>ability
+<ul><li>power or aptitude to perform physical or mental activities related to a profession or trade
+
+</li>
+
+</ul>
+</li>
+<li>knowledge
+<ul><li>understanding of facts or information thru' experience or education
+
+</li>
+<li>theoretical or practical understanding of a subject
+
+</li>
+
+</ul>
+</li>
+<li>attitude
+<ul><li>set of emotion, beliefs, and behaviours towards a particular object, person, thing or event
+
+</li>
+
+</ul>
+</li>
+<li>availability
+<ul><li>ability of an IT service or other configuration item to perform its agreed function when required
+
+</li>
+
+</ul>
+</li>
+<li>warranty requirement
+<ul><li><p>typically non-functional requirement
+<ul><li>captured from stakeholder and other practices
+
+</li>
+
+</ul>&#xa;    <p>&#xa;      manage a library of pre-defined&#xa;    </p>&#xa;    <p>&#xa;      &#160;warranty <u>acceptance criteria</u>&#160;for&#xa;    </p>&#xa;  
+<ul><li>project management
+
+</li>
+<li>software development and mgmt
+
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>utility requirement
+<ul><li>&#xa;    <p>&#xa;      functional requirement defined by <u>customer </u>&#xa;    </p>&#xa;    <p>&#xa;      &#160;and unique to specific <u>product</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>performance
+<ul><li>measure of what is achieved or delivered by
+<ul><li>system
+
+</li>
+<li>person
+
+</li>
+<li>team
+
+</li>
+<li>practice
+
+</li>
+<li>service
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>change
+<ul><li>addition, modification or removal
+<ul><li>&#xa;    <p>&#xa;      anything that have directly or indirectly effect on <u>services</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul>
+</li>
+<li>incident
+<ul><li>unplanned interruption to service or reduction of quality of service
+
+</li>
+
+</ul>
+</li>
+<li>IT asset
+<ul><li>any financial valuable component that contributes to delivery of IT product and services
+
+</li>
+
+</ul>
+</li>
+<li>event
+<ul><li>change of state that has significance for -&gt; 
+<ul><li>mgmt of service
+
+</li>
+<li>configuration items (CI)
+
+</li>
+
+</ul>
+</li>
+<li>recognised thru' notification create by -&gt; 
+<ul><li> IT service
+
+</li>
+<li>configuration items (CI)
+
+</li>
+<li>monitoring tools
+
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li>problem
+<ul><li>cause or potential cause of one or more incident
+
+</li>
+
+</ul>
+</li>
+<li>known error
+<ul><li>problem that was analysed but not resolved
+
+</li>
+
+</ul>
+</li>
+<li>workaround
+<ul><li><p>a solution that reduces or eliminates impact of incident or problem for which full resolution is not yet available
+<p>some workaround reduce the likelihood of incidents
+</li>
+</ul>
+</li>
+<li>release
+<ul><li>&#xa;    <p>&#xa;      a version of service or other configuration item (CI),&#xa;    </p>&#xa;    <p>&#xa;      &#160;or a collection of configuration items,&#xa;    </p>&#xa;    <p>&#xa;      &#160;that is made available for use&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>request catalogue
+<ul><li>&#xa;    <p>&#xa;      a view of<u>&#160;service catalogue</u>,&#xa;    </p>&#xa;    <p>&#xa;      &#160;providing details on&#xa;    </p>&#xa;    <p>&#xa;      &#160;<u>service requests</u>&#160;for&#xa;    </p>&#xa;    <p>&#xa;      &#160;existing and new<u>&#160;service</u>,&#xa;    </p>&#xa;    <p>&#xa;      &#160;which is made available for<u>&#160;user</u>&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>configuration item
+<ul><li>any component that needs to be managed in order to deliver an IT service
+
+</li>
+
+</ul>
+</li>
+<li>configuration mgmt system
+<ul><li>a set of tools, data, and information that is used to support service configuration mgmt
+
+</li>
+
+</ul>
+</li>
+<li>recovery time objective (RTO)
+<ul><li>&#xa;    <p>&#xa;      max acceptable period of time&#xa;    </p>&#xa;    <p>&#xa;      &#160;following service disruption that can elapse&#xa;    </p>&#xa;    <p>&#xa;      &#160;before lack of business functionality severely impacts org&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      represent max agreed time within a product or activity&#xa;    </p>&#xa;    <p>&#xa;      &#160;must be resumed, or resources must be recovered&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>recovery point objective (RPO)
+<ul><li><p>point which information used by activity must be restored to enable the activity to operate on resumption
+</li>
+</ul>
+</li>
+<li>disaster recovery plan
+<ul><li>a set if clearly defined plans related to how org will recover from disaster
+
+</li>
+<li>return to pre-disaster condition, considering the four dimensions of service management
+
+</li>
+
+</ul>
+</li>
+<li>business impact analysis (BIA)
+<ul><li>&#xa;    <p>&#xa;      key activity in the practice of service continuity mgmt&#xa;    </p>&#xa;    <p>&#xa;      &#160;that identifies vital business functions (VBFs)&#xa;    </p>&#xa;    <p>&#xa;      &#160;and their dependencies&#xa;    </p>&#xa;  
+<ul><li>dependencies
+<ul><li>suppliers
+
+</li>
+<li>people
+
+</li>
+<li>business processes
+
+</li>
+<li>IT services
+
+</li>
+
+</ul>
+</li>
+
+</ul><p>BIA defines recovery requirement for IT services
+<ul><li>requirements
+<ul><li>RTOs
+
+</li>
+<li>RPOs
+
+</li>
+<li>minimum target service levels for IT services
+
+</li>
+
+</ul>
+</li>
+
+</ul></li>
+</ul>
+</li>
+<li>service level
+<ul><li>one or more metrics that define expected or achieved service quality
+
+</li>
+
+</ul>
+</li>
+<li>service level agreement
+<ul><li>&#xa;    <p>&#xa;      a documented agreement between a service provider and a customer&#xa;    </p>&#xa;    <p>&#xa;      &#160;that identifies both services required and the expected level of service&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+<li>service request 
+<ul><li>&#xa;    <p>&#xa;      a request from a user or user's authorised representative&#xa;    </p>&#xa;    <p>&#xa;      &#160;that initiate a service action which has been agreed&#xa;    </p>&#xa;    <p>&#xa;      &#160;as a normal part of service delivery&#xa;    </p>&#xa;  
+</li>
+</ul>
+</li>
+
+</ul><p>figures
+<ul><li>&#xa;    <p>&#xa;      <img src="Figure-1.1-on-Page-3-of-ITIL-Foundation..png" height="280" width="480" >&#xa;      <br >&#xa;      <b>Service Value System</b>&#xa;    </p>&#xa;  
+&#xa;    <img src="ITIL%204%20Service%20Value%20System.png" >&#xa;  
+&#xa;    <p>&#xa;      <img src="4%20dimension.png" height="280" width="480" >&#xa;      <br >&#xa;      <b>Four dimension of service management</b>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      <img src="ITIL%20service%20value%20chain.gif" width="480" height="280" >&#xa;      <br >&#xa;      <b>ITIL service value chain</b>&#xa;    </p>&#xa;  
+&#xa;    <p>&#xa;      <img src="itil-continual-improvement-model.jpg" width="480" >&#xa;    </p>&#xa;  
+&#xa;    <img src="ITIL-v4-CI-Model-768x478.png" >&#xa;  
+&#xa;    <img src="itil-v3-vs-v4-12-1024.jpg" >&#xa;  
+</li>
+</ul></li>
+</ul>
+</li>
+
+</ul><SCRIPT type="text/javascript">
+fold_document();
+</SCRIPT>
+</body>
+</html>
